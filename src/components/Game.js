@@ -6,18 +6,19 @@ function Game() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
   const [winner, setWinner] = useState(null);
-  const [moves, setMoves] = useState([
+  let [moves, setMoves] = useState([
     {
       id: 0,
       text: "Go to game start",
-      xIsNext: false,
-      squares: Array(9).fill(null),
+      xIsNext: true,
+      squares: squares,
     },
   ]);
+  let [currentMove, setCurrentMove] = useState(0);
+  let [maxMove, setMaxMove] = useState(0);
 
   //Declaring a Winner
   useEffect(() => {
-    //"Your code here";
     setWinner(calculateWinner(squares));
   }, [squares]);
 
@@ -64,34 +65,74 @@ function Game() {
     //NEW CODES
     const newSquares = squares.slice();
 
+    console.log("handle Click - before");
+    console.log("current Move " + currentMove);
+    console.log("max Move " + maxMove);
+
     if (newSquares[i] === null && winner === null) {
+      //reset the move
+      if (currentMove < maxMove) {
+        console.log("reset " + currentMove);
+        for (let i = currentMove; i < maxMove; i++) {
+          moves.pop();
+        }
+      }
+
       if (xIsNext) {
         newSquares[i] = "X";
       } else {
         newSquares[i] = "O";
       }
 
+      const newMove = {
+        id: moves.length,
+        text: "Go to move #" + moves.length,
+        xIsNext: xIsNext ? false : true,
+        squares: newSquares,
+      };
+
+      currentMove = newMove.id;
+      maxMove = newMove.id;
+      setCurrentMove(currentMove);
+      setMaxMove(maxMove);
+
+      moves.push(newMove);
+
+      setMoves(moves);
+
       setXIsNext(xIsNext ? false : true);
 
       setSquares(newSquares);
 
-      const newMove = {
-        id: moves.length,
-        text: "Go to move #" + moves.length,
-        xIsNext: xIsNext,
-        squares: newSquares,
-      };
-
-      setMoves([...moves, newMove]);
+      /*
+      console.log("handle Click - after");
+      console.log("current Move " + currentMove);
+      console.log("max Move " + maxMove);
+      */
     }
   };
 
-  const moveBack = (i) => {
-    const currentXIsNext = moves[i].xIsNext;
-    const currentSquare = moves[i].squares;
+  const moveBack = (id) => {
+    const currentXIsNext = moves[id].xIsNext;
+    const currentSquare = moves[id].squares;
+
+    /*moves.forEach((move) => {
+      if (move.id !== id) {
+        move.current = false;
+      } else {
+        move.current = true;
+      }
+    });*/
+
+    currentMove = id;
+    setCurrentMove(currentMove);
 
     setXIsNext(currentXIsNext);
     setSquares(currentSquare);
+
+    console.log("move Back");
+    console.log("current Move " + currentMove);
+    console.log("max Move " + maxMove);
   };
 
   //Restart game
@@ -99,8 +140,15 @@ function Game() {
     setSquares(Array(9).fill(null));
     setXIsNext(true);
     setWinner(null);
+    setCurrentMove(0);
+    setMaxMove(0);
     setMoves([
-      { id: 0, text: "Go to game start", squares: Array(9).fill(null) },
+      {
+        id: 0,
+        text: "Go to game start",
+        xIsNext: true,
+        squares: Array(9).fill(null),
+      },
     ]);
   };
 
