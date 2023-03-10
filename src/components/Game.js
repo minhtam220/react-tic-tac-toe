@@ -8,18 +8,17 @@ function Game() {
   const [winner, setWinner] = useState(null);
   const [moves, setMoves] = useState([
     {
-      id:0, 
-      text:"Go to game start", 
+      id: 0,
+      text: "Go to game start",
       xIsNext: false,
-      squares:Array(9).fill(null)},
+      squares: Array(9).fill(null),
+    },
   ]);
-
 
   //Declaring a Winner
   useEffect(() => {
     //"Your code here";
     setWinner(calculateWinner(squares));
-
   }, [squares]);
 
   //function to check if a player has won.
@@ -40,13 +39,12 @@ function Game() {
       //cac duong xeo
       [0, 4, 8],
       [2, 4, 6],
-
     ];
 
     //chay tu 0 toi 8
     for (let i = 0; i < lines.length; i++) {
       //destruct a line
-      
+
       const [a, b, c] = lines[i];
       //const [0, 1, 2] = lines[0];
 
@@ -63,11 +61,10 @@ function Game() {
 
   //Handle player
   const handleClick = (i) => {
-
     //NEW CODES
     const newSquares = squares.slice();
 
-    if (newSquares[i] === null) {
+    if (newSquares[i] === null && winner === null) {
       if (xIsNext) {
         newSquares[i] = "X";
       } else {
@@ -75,45 +72,36 @@ function Game() {
       }
 
       setXIsNext(xIsNext ? false : true);
-      
-    };
+    }
 
     setSquares(newSquares);
-       
+
     const newMove = {
-      id:moves.length, 
-      text:"Go to move #" + moves.length, 
+      id: moves.length,
+      text: "Go to move #" + moves.length,
       xIsNext: xIsNext,
-      squares:newSquares};
+      squares: newSquares,
+    };
 
-    setMoves([...moves,newMove]);
-
-    console.log(moves);
-
+    setMoves([...moves, newMove]);
   };
 
   const moveBack = (i) => {
     const currentXIsNext = moves[i].xIsNext;
     const currentSquare = moves[i].squares;
 
-    console.log(currentXIsNext);
-    console.log(currentSquare);
-
     setXIsNext(currentXIsNext);
     setSquares(currentSquare);
-
   };
 
   //Restart game
   const handleRestart = () => {
-
     setSquares(Array(9).fill(null));
     setXIsNext(true);
     setWinner(null);
     setMoves([
-      {id:0, text:"Go to game start", squares:Array(9).fill(null)},
+      { id: 0, text: "Go to game start", squares: Array(9).fill(null) },
     ]);
-
   };
 
   return (
@@ -121,12 +109,8 @@ function Game() {
       <h2 className="result">Winner is: {winner ? winner : "N/N"}</h2>
       <span className="player">Next player is: {xIsNext ? "X" : "O"}</span>
       <div className="game">
-          <Board 
-          squares={squares}
-          handleClick={handleClick} />
-          <History 
-          moves={moves}
-          moveBack={moveBack}/>
+        <Board squares={squares} handleClick={handleClick} />
+        <History moves={moves} moveBack={moveBack} />
       </div>
       <button onClick={handleRestart} className="restart-btn">
         Restart

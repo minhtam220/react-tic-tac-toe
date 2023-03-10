@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Square from "./Square";
 
-export default function Board({squares,handleClick }) {
+function Board({squares,handleClick }) {
   return (
     <div className="board">
       <div>
@@ -24,3 +24,5 @@ export default function Board({squares,handleClick }) {
     </div>
   );
 }
+
+export default Board;
