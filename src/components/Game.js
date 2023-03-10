@@ -72,18 +72,18 @@ function Game() {
       }
 
       setXIsNext(xIsNext ? false : true);
+
+      setSquares(newSquares);
+
+      const newMove = {
+        id: moves.length,
+        text: "Go to move #" + moves.length,
+        xIsNext: xIsNext,
+        squares: newSquares,
+      };
+
+      setMoves([...moves, newMove]);
     }
-
-    setSquares(newSquares);
-
-    const newMove = {
-      id: moves.length,
-      text: "Go to move #" + moves.length,
-      xIsNext: xIsNext,
-      squares: newSquares,
-    };
-
-    setMoves([...moves, newMove]);
   };
 
   const moveBack = (i) => {
