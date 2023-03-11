@@ -6,6 +6,7 @@ function Game() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
   const [winner, setWinner] = useState(null);
+
   let [moves, setMoves] = useState([
     {
       id: 0,
@@ -14,6 +15,10 @@ function Game() {
       squares: squares,
     },
   ]);
+
+  setMoves();
+  moves = [];
+
   let [currentMove, setCurrentMove] = useState(0);
   let [maxMove, setMaxMove] = useState(0);
 
@@ -97,7 +102,6 @@ function Game() {
       setMaxMove(maxMove);
 
       moves.push(newMove);
-
       setMoves(moves);
 
       setXIsNext(xIsNext ? false : true);
