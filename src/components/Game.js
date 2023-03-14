@@ -16,11 +16,8 @@ function Game() {
     },
   ]);
 
-  setMoves();
-  moves = [];
-
-  let [currentMove, setCurrentMove] = useState(0);
-  let [maxMove, setMaxMove] = useState(0);
+  const [currentMove, setCurrentMove] = useState(0);
+  const [maxMove, setMaxMove] = useState(0);
 
   //Declaring a Winner
   useEffect(() => {
@@ -96,13 +93,16 @@ function Game() {
         squares: newSquares,
       };
 
+      /*
       currentMove = newMove.id;
       maxMove = newMove.id;
-      setCurrentMove(currentMove);
-      setMaxMove(maxMove);
+      */
 
-      moves.push(newMove);
-      setMoves(moves);
+      setCurrentMove(newMove.id);
+
+      setMaxMove(newMove.id);
+
+      setMoves([...moves, newMove]);
 
       setXIsNext(xIsNext ? false : true);
 
@@ -128,8 +128,7 @@ function Game() {
       }
     });*/
 
-    currentMove = id;
-    setCurrentMove(currentMove);
+    setCurrentMove(id);
 
     setXIsNext(currentXIsNext);
     setSquares(currentSquare);
